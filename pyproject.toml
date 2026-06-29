@@ -1,0 +1,9 @@
+[project]
+name = "create-gif-py"
+version = "0.1.0"
+description = "Create animated GIFs from a sequence of images using Python and the ImageIO library. Convert image frames into high-quality GIFs with customizable frame duration, looping behavior, and output settings. Simple, lightweight, and easy to integrate into automation or image processing workflows."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "imageio>=2.37.3",
+]
