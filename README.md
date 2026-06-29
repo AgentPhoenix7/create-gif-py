@@ -133,7 +133,6 @@ create-gif-py/
 ├── nyan-cat3.png      # Input frame 3
 ├── nyan-cat.gif       # Generated output
 ├── pyproject.toml     # Project metadata and dependencies
-├── uv.lock            # Locked dependency versions
 └── LICENSE            # MIT
 ```
 
