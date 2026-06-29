@@ -9,7 +9,7 @@
 <br/><br/>
 
 [![Python](https://img.shields.io/badge/Python-3.13%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![imageio](https://img.shields.io/badge/imageio-2.37%2B-FF6B6B?style=for-the-badge)](https://imageio.readthedocs.io/)
+[![imageio](https://img.shields.io/badge/imageio-%3E%3D2.37.3-FF6B6B?style=for-the-badge)](https://imageio.readthedocs.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![uv](https://img.shields.io/badge/managed%20with-uv-7C3AED?style=for-the-badge)](https://github.com/astral-sh/uv)
 
@@ -41,10 +41,10 @@ nyan-cat3.png  →
 
 | Dependency | Version |
 |------------|---------|
-| Python     | ≥ 3.13  |
+| Python     | ≥ 3.13 |
 | imageio    | ≥ 2.37.3 |
-| Pillow     | ≥ 12.2.0 (pulled in by imageio) |
-| NumPy      | ≥ 2.5.0  (pulled in by imageio) |
+
+`imageio` installs its required dependencies (including Pillow and NumPy) automatically.
 
 ---
 
@@ -64,12 +64,14 @@ uv sync
 ### Using pip
 
 ```bash
+# Clone the repository
 git clone https://github.com/AgentPhoenix7/create-gif-py.git
 cd create-gif-py
 
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install imageio
+
+pip install .
 ```
 
 ---
