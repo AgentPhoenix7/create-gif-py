@@ -4,7 +4,7 @@
 
 <br/>
 
-<img src="nyan-cat.gif" alt="Demo — nyan cat animated GIF created with this project" width="420" />
+<img src="images/nyan-cat.gif" alt="Demo — nyan cat animated GIF created with this project" width="420" />
 
 <br/><br/>
 
@@ -13,7 +13,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![uv](https://img.shields.io/badge/managed%20with-uv-7C3AED?style=for-the-badge)](https://github.com/astral-sh/uv)
 
-**Convert a sequence of images into a smooth, looping animated GIF — in a single Python file.**
+**Convert a sequence of images into a smooth, looping animated GIF — in a single importable function.**
 
 </div>
 
@@ -21,18 +21,18 @@
 
 ## What It Does
 
-`create-gif-py` reads a list of image frames (PNG, JPEG, or any format supported by Pillow) and stitches them into a single animated GIF with configurable frame timing and loop behavior. The entire implementation fits in one file with no boilerplate.
+`create-gif-py` reads a list of image frames (PNG, JPEG, or any format supported by Pillow) and stitches them into a single animated GIF with configurable frame timing and loop behavior.
 
 ---
 
 ## Demo
 
-The GIF at the top of this page was produced by running the script against three PNG frames:
+The GIF at the top of this page was produced by running `main.py` against three PNG frames:
 
 ```
-nyan-cat1.png  →
-nyan-cat2.png  →  nyan-cat.gif  (250 ms/frame, loops forever)
-nyan-cat3.png  →
+images/nyan-cat1.png  →
+images/nyan-cat2.png  →  images/nyan-cat.gif  (250 ms/frame, loops forever)
+images/nyan-cat3.png  →
 ```
 
 ---
@@ -80,45 +80,54 @@ pip install .
 
 ### Run as-is
 
-Drop your image frames into the project folder, update the `filenames` list in `create_gif.py`, then run:
+Place your image frames inside the `images/` folder, update the list in `main.py`, then run:
 
 ```bash
-# With uv
-uv run create_gif.py
+# With uv (no install needed)
+uv run main.py
+
+# After uv sync or pip install .
+create-gif
 
 # With an activated virtual environment
-python create_gif.py
+python main.py
 ```
 
-The output GIF is written to the same directory.
+The output GIF is written to the `images/` folder.
 
 ### Customise
 
-Open `create_gif.py` — there are three values you might want to change:
+Edit `main.py` to point at your own frames and tweak the parameters:
 
 ```python
-import imageio.v3 as iio
+from pathlib import Path
+from create_gif import create_gif
 
-# 1. The input frames, in order
-filenames = ['frame1.png', 'frame2.png', 'frame3.png']
-
-# 2. Load all frames into memory
-images = [iio.imread(filename) for filename in filenames]
-
-# 3. Write the GIF
-iio.imwrite(
-    'output.gif',   # output path
-    images,
-    duration=250,   # milliseconds each frame is displayed
-    loop=0,         # 0 = loop forever; 1+ = loop N times then stop
+create_gif(
+    [
+        Path("images/frame1.png"),
+        Path("images/frame2.png"),
+        Path("images/frame3.png"),
+    ],
+    "images/output.gif",
+    duration=250,  # milliseconds each frame is displayed
+    loop=0,        # 0 = loop forever; 1+ = loop N times then stop
 )
+```
+
+You can also import `create_gif` directly in your own script:
+
+```python
+from create_gif import create_gif
+
+create_gif(["a.png", "b.png", "c.png"], "out.gif", duration=100)
 ```
 
 #### Key parameters
 
 | Parameter  | Type  | Default | Description |
 |------------|-------|---------|-------------|
-| `duration` | `int` | `250`   | How long each frame is shown, in milliseconds. Lower = faster animation. |
+| `duration` | `int` | `500`   | How long each frame is shown, in milliseconds. Lower = faster animation. |
 | `loop`     | `int` | `0`     | Number of times the GIF loops. `0` means infinite. |
 
 ---
@@ -127,11 +136,13 @@ iio.imwrite(
 
 ```
 create-gif-py/
-├── create_gif.py      # Main script — the entire implementation
-├── nyan-cat1.png      # Input frame 1
-├── nyan-cat2.png      # Input frame 2
-├── nyan-cat3.png      # Input frame 3
-├── nyan-cat.gif       # Generated output
+├── create_gif.py      # Core utility — create_gif() function
+├── main.py            # Entrypoint — runs the nyan-cat demo
+├── images/
+│   ├── nyan-cat1.png  # Input frame 1
+│   ├── nyan-cat2.png  # Input frame 2
+│   ├── nyan-cat3.png  # Input frame 3
+│   └── nyan-cat.gif   # Generated output
 ├── pyproject.toml     # Project metadata and dependencies
 └── LICENSE            # MIT
 ```
